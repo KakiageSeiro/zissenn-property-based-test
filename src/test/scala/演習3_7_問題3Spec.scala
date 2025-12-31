@@ -3,11 +3,11 @@ import org.scalacheck.Properties
 
 object 演習3_7_問題3Spec extends Properties("演習3_7_問題3Spec") {
   property("セットの和集合") = forAll { (listA: List[Int], listB: List[Int]) =>
-    val setA = listA.toSet
-    val setB = listB.toSet
-    val setAB = setA ++ setB
+    val setA   = listA.toSet
+    val setB   = listB.toSet
+    val setAB  = setA ++ setB
     val listAB = setAB.toList
-    val res = listAB.sorted
+    val res    = listAB.sorted
 
     // val modelUnion = (listA ++ listB).sorted // setで重複排除されるが、モデルは排除していないのでコケていた
     val modelUnion = (listA ++ listB).sorted.distinct

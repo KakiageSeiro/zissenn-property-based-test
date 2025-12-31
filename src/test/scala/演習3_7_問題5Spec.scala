@@ -43,7 +43,7 @@ object 演習3_7_問題5Spec extends Properties("演習3_7_問題5Spec") {
   }
 
   def targetFunc(str: String): Int = {
-    //str.split(" ").toList.size
+    // str.split(" ").toList.size
 
     // 「不変性質: 前後に空白を追加しても、結果は変わらない」で発見したバグ修正後の実装
     str.split(" ").count(_.nonEmpty)
@@ -53,7 +53,7 @@ object 演習3_7_問題5Spec extends Properties("演習3_7_問題5Spec") {
     // Gen.chooseで指定した範囲の中から生成する
     private val ひらがな: Gen[Char] = Gen.choose('\u3040', '\u309F') // ひらがな
     private val カタカナ: Gen[Char] = Gen.choose('\u30A0', '\u30FF') // カタカナ
-    private val 漢字: Gen[Char] = Gen.choose('\u4E00', '\u9FFF') // 漢字
+    private val 漢字: Gen[Char]   = Gen.choose('\u4E00', '\u9FFF') // 漢字
     // Gen.oneOfでどれか一つ選ぶ
     private val multilingualChar: Gen[Char] = Gen.oneOf(
       Gen.alphaNumChar, // アルファベット・数字
