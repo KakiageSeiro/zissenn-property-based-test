@@ -1,5 +1,5 @@
-import org.scalacheck.Prop.{forAll, propBoolean}
-import org.scalacheck.{Gen, Prop, Properties}
+import org.scalacheck.Prop.{ forAll, propBoolean }
+import org.scalacheck.{ Gen, Prop, Properties }
 import 演習3_7_問題5Spec.ジェネレータ.ひらがなカタカナ漢字アルファベット数字
 
 object 演習3_7_問題5Spec extends Properties("演習3_7_問題5Spec") {
@@ -40,6 +40,23 @@ object 演習3_7_問題5Spec extends Properties("演習3_7_問題5Spec") {
     (s1.trim.nonEmpty && s2.trim.nonEmpty) ==> {
       targetFunc(s1 + " " + s2) == targetFunc(s1) + targetFunc(s2)
     }
+  }
+
+  property("オラクルパターン") = forAll { (text: String) =>
+    def altWordCount(str: String): Int = {
+      def go(chars: List[Char], inWord: Boolean): Int = chars match {
+        // 終了条件。直前が空白でなかったら(inWord = true)文字数をインクリメント
+        case Nil         => if (inWord) 1 else 0
+        // 空白が来た場合、直前空白ではなかったら(inWord = true)文字数をインクリメント。直前空白だったら空白が連続しているので無視して再起
+        case ' ' :: rest => if (inWord) 1 + go(rest, false) else go(rest, false)
+        // 単語の途中の文字が_に入っていたら再起
+        case _ :: rest   => go(rest, true)
+      }
+
+      go(str.toList, false)
+    }
+
+    targetFunc(text) == altWordCount(text)
   }
 
   def targetFunc(str: String): Int = {
